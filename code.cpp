@@ -210,6 +210,3 @@ public:
   friend bool operator>=(const int2048 &a, const int2048 &b) { return !(a < b); }
 };
 } // namespace sjtu
-
-// Simple main for OJ compatibility if needed (may be ignored by OJ)
-int main() { return 0; }
