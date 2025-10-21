@@ -19,7 +19,29 @@
 
 namespace sjtu {
 class int2048 {
-  // todo
+private:
+  static const uint32_t BASE = 1000000000u; // 1e9
+  static const int BASE_DIGS = 9;
+  std::vector<uint32_t> digits; // little-endian, digits[0] is least significant
+  bool negative = false;        // true if value < 0
+
+  // helpers on absolute values (sign-agnostic)
+  void trim();
+  bool isZero() const;
+  int absCompare(const int2048 &other) const; // -1,0,1 for |*this| cmp |other|
+  void absAdd(const int2048 &other);          // |*this| += |other|
+  void absSub(const int2048 &other);          // |*this| -= |other|, require |*this|>=|other|
+
+  static int2048 absAdd(const int2048 &a, const int2048 &b);
+  static int2048 absSubLargeSmall(const int2048 &a, const int2048 &b); // assume |a|>=|b|
+
+  static void mulSchoolbook(const std::vector<uint32_t> &a,
+                            const std::vector<uint32_t> &b,
+                            std::vector<uint32_t> &out);
+
+  // division with trunc toward zero: returns (q, r) such that a = b*q + r, 0<=|r|<|b|
+  static void divmodTrunc(const int2048 &a, const int2048 &b, int2048 &q, int2048 &r);
+
 public:
   // 构造函数
   int2048();
